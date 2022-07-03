@@ -328,10 +328,16 @@ class RNParallax extends Component {
     delete renderableScrollViewProps.onScroll;
 
     return (
-      <Animated.ScrollView
+     <Animated.FlatList
         style={[styles.scrollView, scrollViewStyle]}
         contentContainerStyle={contentContainerStyle}
         scrollEventThrottle={scrollEventThrottle}
+        ListHeaderComponent={
+          <View
+            style={[{marginTop: this.getHeaderMaxHeight(), innerContainerStyle}]}>
+            {renderContent()}
+          </View>
+        }
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {
@@ -339,12 +345,8 @@ class RNParallax extends Component {
             listener: onScroll,
           },
         )}
-        {...renderableScrollViewProps}>
-        <View
-          style={[{marginTop: this.getHeaderMaxHeight()}, innerContainerStyle]}>
-          {renderContent()}
-        </View>
-      </Animated.ScrollView>
+        {...renderableScrollViewProps}
+      />
     );
   }
 
